@@ -2,7 +2,12 @@
 
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
+from time import time
 from class_vis import prettyPicture
+from sklearn.metrics import accuracy_score
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.ensemble import AdaBoostClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -30,13 +35,18 @@ plt.show()
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+clf = KNeighborsClassifier(n_neighbors=3)
 
+t0 = time()
+clf.fit(features_train, labels_train)
+print("training time:", round(time() - t0, 3), "s")
 
+t1 = time() 
+predicted = clf.predict(features_test)
+print("predicting time:", round(time() - t1, 3), "s")
 
-
-
-
-
+accuracy = accuracy_score(labels_test, predicted)
+print("Accuracy", accuracy)
 
 try:
     prettyPicture(clf, features_test, labels_test)
