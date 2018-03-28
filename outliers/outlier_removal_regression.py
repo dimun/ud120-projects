@@ -25,9 +25,12 @@ ages_train, ages_test, net_worths_train, net_worths_test = train_test_split(ages
 
 ### fill in a regression here!  Name the regression object reg so that
 ### the plotting code below works, and you can see what your regression looks like
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 
-
-
+reg = LinearRegression()
+reg.fit(ages_train, net_worths_train)
+score = r2_score(net_worths_test, reg.predict(ages_test))
 
 
 
@@ -42,7 +45,8 @@ except NameError:
     pass
 plt.scatter(ages, net_worths)
 plt.show()
-
+print("slope", reg.coef_)
+print("score", score)
 
 ### identify and remove the most outlier-y points
 cleaned_data = []
@@ -77,6 +81,9 @@ if len(cleaned_data) > 0:
     plt.xlabel("ages")
     plt.ylabel("net worths")
     plt.show()
+    new_score = r2_score(net_worths_test, reg.predict(ages_test))
+    print("new slope", reg.coef_)
+    print("new score", new_score)
 
 
 else:
